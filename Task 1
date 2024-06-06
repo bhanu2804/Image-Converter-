@@ -1,0 +1,30 @@
+from PIL import Image
+import os
+
+def convert_images(input_folder, output_folder, output_format):
+    # Ensure output folder exists
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+    
+    # Iterate over files in the input folder
+    for filename in os.listdir(input_folder):
+        # Check if the file is an image
+        if filename.endswith(('.jpeg', '.jpg', '.png', '.bmp', '.gif')):
+            # Open the image file
+            with Image.open(os.path.join(input_folder, filename)) as img:
+                # Generate the output file path
+                output_path = os.path.join(output_folder, os.path.splitext(filename)[0] + '.' + output_format.lower())
+                
+                # Convert and save the image
+                img.save(output_path)
+                print(f"Converted {filename} to {output_format.upper()} format")
+        else:
+            print(f"{filename} is not an image file")
+
+# Example usage
+if __name__ == "__main__":
+    input_folder = "input_images"
+    output_folder = "output_images"
+    output_format = "JPEG"  # Desired output format, can be JPEG, PNG, BMP, GIF
+
+    convert_images(input_folder, output_folder, output_format)
